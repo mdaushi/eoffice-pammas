@@ -2,11 +2,13 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Status;
 use App\Filament\Resources\LetterRequestResource\Pages;
 use App\Filament\Resources\LetterRequestResource\RelationManagers;
 use App\Models\LetterRequest;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -57,6 +59,7 @@ class LetterRequestResource extends Resource
                             ->required(),
                         Forms\Components\DatePicker::make('birth_date')
                             ->label("Tanggal Lahir")
+                            ->native(false)
                             ->required(),
                         Forms\Components\Select::make('gender')
                             ->label("Jenis Kelamin")
@@ -123,7 +126,37 @@ class LetterRequestResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\Action::make("disposisi")
+                        ->requiresConfirmation()
+                        ->modalHeading("Disposisi Surat")
+                        ->modalDescription("Tindakan ini akan mengirim surat ke Kepala Desa untuk ditanda tangani")
+                        ->icon("heroicon-o-arrow-uturn-right")
+                        ->action(function (LetterRequest $record) {
+                            $record->disposisi_action();
+
+                            $record->create_reply();
+
+                            Notification::make()
+                                ->success()
+                                ->title("Pengajuan didisposisi")
+                                ->send();
+                        })
+                        ->hidden(function(LetterRequest $record){
+                            // hidden for user
+                            if(auth()->user()->roles[0]->name == "user"){
+                                return true;
+                            }
+
+                            if($record->status == Status::DISPOSISI->value){
+                                return true;
+                            }
+
+                            return false;
+                        })
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
