@@ -6,6 +6,7 @@ use App\Enums\Status;
 use App\Filament\Resources\LetterRequestResource\Pages;
 use App\Filament\Resources\LetterRequestResource\RelationManagers;
 use App\Models\LetterRequest;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -144,13 +145,13 @@ class LetterRequestResource extends Resource
                                 ->title("Pengajuan didisposisi")
                                 ->send();
                         })
-                        ->hidden(function(LetterRequest $record){
+                        ->hidden(function (LetterRequest $record) {
                             // hidden for user
-                            if(auth()->user()->roles[0]->name == "user"){
+                            if (auth()->user()->roles[0]->name == "user") {
                                 return true;
                             }
 
-                            if($record->status == Status::DISPOSISI->value){
+                            if ($record->status == Status::DISPOSISI->value) {
                                 return true;
                             }
 
@@ -179,5 +180,17 @@ class LetterRequestResource extends Resource
             'create' => Pages\CreateLetterRequest::route('/create'),
             'edit' => Pages\EditLetterRequest::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        $user = User::find(auth()->user()->id);
+        $isUSer = $user->roles[0]->name == "user";
+
+        if($isUSer){
+            return parent::getEloquentQuery()->where('created_by', $user->id);
+        }
+
+        return parent::getEloquentQuery();
     }
 }
