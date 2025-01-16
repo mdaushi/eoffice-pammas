@@ -109,6 +109,12 @@ class LetterRequestResource extends Resource
                     ->label("Alamat")
                     ->searchable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'Proses' => 'gray',
+                        'Disposisi' => 'warning',
+                        'Selesai' => 'success',
+                    })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
@@ -187,7 +193,7 @@ class LetterRequestResource extends Resource
         $user = User::find(auth()->user()->id);
         $isUSer = $user->roles[0]->name == "user";
 
-        if($isUSer){
+        if ($isUSer) {
             return parent::getEloquentQuery()->where('created_by', $user->id);
         }
 

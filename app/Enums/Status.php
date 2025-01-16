@@ -6,5 +6,5 @@ enum Status: string
 {
     case PROSES = 'Proses';
     case DISPOSISI = "Disposisi";
-    case Selesai = "Selesai";
+    case SELESAI = "Selesai";
 }
