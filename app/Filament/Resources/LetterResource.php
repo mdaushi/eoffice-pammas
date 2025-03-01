@@ -150,13 +150,13 @@ class LetterResource extends Resource
                             // Redirect ke URL file PDF untuk membuka di tab baru
                             return $pdfPath;
                         })
-                        ->extraModalFooterActions([
-                            Tables\Actions\Action::make('open-url')
-                                ->label('Open in browser')
-                                ->url("#")
-                                ->openUrlInNewTab()
-                                ->icon('heroicon-o-globe-alt')
-                        ]),
+                    // ->extraModalFooterActions([
+                    //     Tables\Actions\Action::make('open-url')
+                    //         ->label('Open in browser')
+                    //         ->url("#")
+                    //         ->openUrlInNewTab()
+                    //         ->icon('heroicon-o-globe-alt')
+                    // ]),
                 ])
             ])
             ->bulkActions([

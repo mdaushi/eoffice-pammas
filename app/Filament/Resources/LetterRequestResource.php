@@ -5,14 +5,17 @@ namespace App\Filament\Resources;
 use App\Enums\Status;
 use App\Filament\Resources\LetterRequestResource\Pages;
 use App\Filament\Resources\LetterRequestResource\RelationManagers;
+use App\Models\Letter;
 use App\Models\LetterRequest;
 use App\Models\User;
+use App\Services\LetterService;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Hugomyb\FilamentMediaAction\Tables\Actions\MediaAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -133,7 +136,21 @@ class LetterRequestResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
+                // Tables\Actions\ViewAction::make(),
+                MediaAction::make("show")
+                    ->label("Lihat")
+                    ->icon("heroicon-o-eye")
+                    ->media(function (LetterService $letterService, LetterRequest $record) {
+                        $letter = Letter::where('letter_request_id', $record->id)->firstOrFail();
+                        // Generate PDF dari template
+                        $pdfPath = $letterService->generatePDFFromTemplate($letter);
+
+                        // Redirect ke URL file PDF untuk membuka di tab baru
+                        return $pdfPath;
+                    })
+                    ->disabled(function (LetterRequest $record) {
+                        return $record->status == Status::PROSES->value;
+                    }),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\Action::make("disposisi")

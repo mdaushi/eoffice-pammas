@@ -7,3 +7,4 @@
 - user_nik
 - waktu_sekarang
 - nomor_surat
+- qrcode
