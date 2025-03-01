@@ -102,8 +102,8 @@ class LetterResource extends Resource
 
                         return false;
                     })
-                    ->disabled(function (Letter $record){
-                        if($record->sign_at) return true;
+                    ->disabled(function (Letter $record) {
+                        if ($record->sign_at) return true;
                         return false;
                     })
                     ->form([
@@ -142,16 +142,10 @@ class LetterResource extends Resource
                         ->icon("heroicon-o-document")
                         ->color("success")
                         ->modalFooterActionsAlignment(Alignment::Center)
-                        ->media(function(LetterService $letterService){
-                            $data = [
-                                'nama' => "Firdaus",
-                                'tempat_lahir' => "Makassar",
-                                'tanggal_lahir' => "00 00 0000"
-                            ];
+                        ->media(function (LetterService $letterService, $record) {
 
-                            $templateName = "keteragan_tidak_mampu";
                             // Generate PDF dari template
-                            $pdfPath = $letterService->generatePDFFromTemplate($templateName, $data);
+                            $pdfPath = $letterService->generatePDFFromTemplate($record);
 
                             // Redirect ke URL file PDF untuk membuka di tab baru
                             return $pdfPath;
@@ -162,7 +156,7 @@ class LetterResource extends Resource
                                 ->url("#")
                                 ->openUrlInNewTab()
                                 ->icon('heroicon-o-globe-alt')
-                            ]),
+                        ]),
                 ])
             ])
             ->bulkActions([

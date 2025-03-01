@@ -6,6 +6,7 @@ use App\Filament\Resources\LetterTypeResource\Pages;
 use App\Filament\Resources\LetterTypeResource\RelationManagers;
 use App\Models\LetterType;
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -29,6 +30,9 @@ class LetterTypeResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                SpatieMediaLibraryFileUpload::make('template')
+                    ->collection("templates")
+                    ->acceptedFileTypes(['application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
             ]);
     }
 
