@@ -1,0 +1,9 @@
+- kades_nama
+- user_nama
+- user_tempat_lahir
+- user_tanggal_lahir
+- user_pekerjaan
+- user_alamat
+- user_nik
+- waktu_sekarang
+- nomor_surat
