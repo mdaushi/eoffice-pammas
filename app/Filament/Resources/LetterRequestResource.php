@@ -152,7 +152,9 @@ class LetterRequestResource extends Resource
                         return $record->status == Status::PROSES->value;
                     }),
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\EditAction::make()->visible(function (LetterRequest $record) {
+                        return $record->status == Status::PROSES->value;
+                    }),
                     Tables\Actions\Action::make("disposisi")
                         ->requiresConfirmation()
                         ->modalHeading("Disposisi Surat")
