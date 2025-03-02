@@ -136,20 +136,33 @@ class LetterResource extends Resource
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make(),
                     Tables\Actions\ViewAction::make(),
-                    MediaAction::make('show-pdf')
+                    Tables\Actions\Action::make("lihat")
                         ->label("Lihat Surat")
-                        ->modalHeading("Lihat")
                         ->icon("heroicon-o-document")
                         ->color("success")
-                        ->modalFooterActionsAlignment(Alignment::Center)
-                        ->media(function (LetterService $letterService, $record) {
+
+                        ->url(function ($record, LetterService $letterService) {
 
                             // Generate PDF dari template
                             $pdfPath = $letterService->generatePDFFromTemplate($record);
 
                             // Redirect ke URL file PDF untuk membuka di tab baru
                             return $pdfPath;
-                        })
+                        })->openUrlInNewTab(),
+                    // MediaAction::make('show-pdf')
+                    //     ->label("Lihat Surat")
+                    //     ->modalHeading("Lihat")
+                    //     ->icon("heroicon-o-document")
+                    //     ->color("success")
+                    //     ->modalFooterActionsAlignment(Alignment::Center)
+                    //     ->media(function (LetterService $letterService, $record) {
+
+                    //         // Generate PDF dari template
+                    //         $pdfPath = $letterService->generatePDFFromTemplate($record);
+
+                    //         // Redirect ke URL file PDF untuk membuka di tab baru
+                    //         return $pdfPath;
+                    //     })
                     // ->extraModalFooterActions([
                     //     Tables\Actions\Action::make('open-url')
                     //         ->label('Open in browser')
