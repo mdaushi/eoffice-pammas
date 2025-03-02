@@ -53,6 +53,8 @@ class LetterService
         // Buat instance TemplateProcessor
         $templateProcessor = new TemplateProcessor($templatePath);
 
+        Log::info("Status Letter: " . $record->letter_request->status);
+
         if ($record->letter_request->status === "Selesai") {
             // Generate QR Code dan simpan sebagai gambar
             $qrCodePath = $this->generateQRCodeWithBaconV3($record);
