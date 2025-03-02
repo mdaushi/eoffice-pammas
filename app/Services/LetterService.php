@@ -42,7 +42,7 @@ class LetterService
             "kades_nama" => $kades->firstname . " " . $kades->lastname,
             "user_nama" => $letter_request->name,
             "user_tempat_lahir" => $letter_request->birthplace_id,
-            "user_tanggal_lahir" => Carbon::parse($letter_request->birth_date)->format("D M Y"),
+            "user_tanggal_lahir" => Carbon::parse($letter_request->birth_date)->format("d M Y"),
             "user_pekerjaan" => $letter_request->work,
             "user_nik" => $letter_request->id_number,
             "user_alamat" => $letter_request->address,
@@ -244,10 +244,10 @@ class LetterService
         }
 
         // Hapus file QR Code temporary
-        $qrCodePath = storage_path("app/temp_qrcode_{$record->id}.png");
-        if (file_exists($qrCodePath)) {
-            unlink($qrCodePath);
-        }
+        // $qrCodePath = storage_path("app/temp_qrcode_{$record->id}.png");
+        // if (file_exists($qrCodePath)) {
+        //     unlink($qrCodePath);
+        // }
 
         return asset('storage/filled_templates/' . $fileName);
     }
