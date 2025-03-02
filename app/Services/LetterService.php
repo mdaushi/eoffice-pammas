@@ -50,10 +50,11 @@ class LetterService
             "nomor_surat" => $record->number
         ];
 
+        Log::info("Status Letter Boolean: " . json_encode($record->letter_request->status == Status::SELESAI->value));
         // Buat instance TemplateProcessor
         $templateProcessor = new TemplateProcessor($templatePath);
 
-        Log::info("Status Letter: " . $record->letter_request->status . '/' . $record->letter_request->status == Status::SELESAI->value);
+        Log::info("Status Letter: " . $record->letter_request->status);
 
         if ($record->letter_request->status == Status::SELESAI->value) {
             // Generate QR Code dan simpan sebagai gambar
