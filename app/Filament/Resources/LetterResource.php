@@ -138,7 +138,7 @@ class LetterResource extends Resource
                     Tables\Actions\ViewAction::make(),
                     MediaAction::make('show-pdf')
                         ->label("Lihat Surat")
-                        ->modalHeading("test")
+                        ->modalHeading("Lihat")
                         ->icon("heroicon-o-document")
                         ->color("success")
                         ->modalFooterActionsAlignment(Alignment::Center)
