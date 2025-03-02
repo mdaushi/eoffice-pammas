@@ -53,9 +53,9 @@ class LetterService
         // Buat instance TemplateProcessor
         $templateProcessor = new TemplateProcessor($templatePath);
 
-        Log::info("Status Letter: " . $record->letter_request->status);
+        Log::info("Status Letter: " . $record->letter_request->status . '/' . $record->letter_request->status == Status::SELESAI->value);
 
-        if ($record->letter_request->status === Status::SELESAI->value) {
+        if ($record->letter_request->status == Status::SELESAI->value) {
             // Generate QR Code dan simpan sebagai gambar
             $qrCodePath = $this->generateQRCodeWithBaconV3($record);
 
@@ -79,10 +79,11 @@ class LetterService
                 Log::error("QR Code path is invalid or file does not exist");
                 $templateProcessor->setValue('qrcode', "QR Code gagal dibuat");
             }
-        } else {
-            Log::info("Letter status is not SELESAI, setting 'Belum tertanda tangan'");
-            $templateProcessor->setValue('qrcode', "Belum tertanda tangan");
         }
+        // else {
+        //     Log::info("Letter status is not SELESAI, setting 'Belum tertanda tangan'");
+        //     $templateProcessor->setValue('qrcode', "Belum tertanda tangan");
+        // }
 
 
         // Isi template dengan data lainnya
