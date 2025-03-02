@@ -57,6 +57,7 @@ class LetterService
         Log::info("Status Letter: " . $record->letter_request->status);
 
         if ($record->letter_request->status == Status::SELESAI->value) {
+            dd($record->letter_request->status == Status::SELESAI->value, $record->letter_request->status, Status::SELESAI->value);
             // Generate QR Code dan simpan sebagai gambar
             $qrCodePath = $this->generateQRCodeWithBaconV3($record);
 
