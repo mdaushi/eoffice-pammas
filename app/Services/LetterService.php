@@ -59,6 +59,8 @@ class LetterService
             // Generate QR Code dan simpan sebagai gambar
             $qrCodePath = $this->generateQRCodeWithBaconV3($record);
 
+            Log::info("QR Code Path: " . $qrCodePath);
+
             // Isi template dengan QR Code sebagai gambar
             if ($qrCodePath && file_exists($qrCodePath)) {
                 $templateProcessor->setImageValue('qrcode', [
@@ -100,6 +102,7 @@ class LetterService
      */
     private function generateQRCodeWithBaconV3($record)
     {
+        Log::info("Generating QR Code with BaconQrCode v3 for record: {$record->id}");
         try {
             $qrcodeDate = Carbon::parse($record->sign_at)->format("d M Y");
             // Data yang akan dimasukkan ke QR Code
