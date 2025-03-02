@@ -59,19 +59,29 @@ class LetterService
             // Generate QR Code dan simpan sebagai gambar
             $qrCodePath = $this->generateQRCodeWithBaconV3($record);
 
-            Log::info("QR Code Path: " . $qrCodePath);
+            Log::info("QR Code Path: " . ($qrCodePath ? $qrCodePath : "QR Code generation failed"));
 
             // Isi template dengan QR Code sebagai gambar
             if ($qrCodePath && file_exists($qrCodePath)) {
-                $templateProcessor->setImageValue('qrcode', [
-                    'path' => $qrCodePath,
-                    'width' => 100,
-                    'height' => 100,
-                    'ratio' => false
-                ]);
+                try {
+                    $templateProcessor->setImageValue('qrcode', [
+                        'path' => $qrCodePath,
+                        'width' => 100,
+                        'height' => 100,
+                        'ratio' => false
+                    ]);
+                    Log::info("QR Code successfully set in template");
+                } catch (\Exception $e) {
+                    Log::error("Error setting QR Code in template: " . $e->getMessage());
+                    $templateProcessor->setValue('qrcode', "Error: QR Code tidak dapat ditampilkan");
+                }
+            } else {
+                Log::error("QR Code path is invalid or file does not exist");
+                $templateProcessor->setValue('qrcode', "QR Code gagal dibuat");
             }
         } else {
-            $data['qrcode'] = "Belum tertanda tangan";
+            Log::info("Letter status is not SELESAI, setting 'Belum tertanda tangan'");
+            $templateProcessor->setValue('qrcode', "Belum tertanda tangan");
         }
 
 
