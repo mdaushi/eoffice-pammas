@@ -155,7 +155,7 @@ class LetterRequestResource extends Resource
                     ->label("Lihat Surat")
                     ->icon("heroicon-o-document")
                     ->color("success")
-                    ->url(function ($record, LetterService $letterService) {
+                    ->url(function (LetterService $letterService, LetterRequest $record) {
                         $letter = Letter::where('letter_request_id', $record->id)->firstOrFail();
                         // Generate PDF dari template
                         $pdfPath = $letterService->generatePDFFromTemplate($letter);
