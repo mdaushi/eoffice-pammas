@@ -70,9 +70,10 @@ class LetterService
                     'ratio' => false
                 ]);
             }
-        } else {
-            $data['qrcode'] = "Belum tertanda tangan";
         }
+        //  else {
+        //     $data['qrcode'] = "Belum tertanda tangan";
+        // }
 
 
         // Isi template dengan data lainnya
