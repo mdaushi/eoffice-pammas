@@ -37,9 +37,9 @@ class CreateUser extends CreateRecord
 
         // $user->notify($notification);
 
-        Notification::make()
-            ->title(__('resource.user.notifications.notification_resent.title'))
-            ->success()
-            ->send();
+        // Notification::make()
+        //     ->title(__('resource.user.notifications.notification_resent.title'))
+        //     ->success()
+        //     ->send();
     }
 }
