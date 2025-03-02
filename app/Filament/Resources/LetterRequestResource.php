@@ -137,32 +137,32 @@ class LetterRequestResource extends Resource
             ])
             ->actions([
                 // Tables\Actions\ViewAction::make(),
-                // MediaAction::make("show")
-                //     ->label("Lihat")
-                //     ->icon("heroicon-o-eye")
-                //     ->media(function (LetterService $letterService, LetterRequest $record) {
-                //         $letter = Letter::where('letter_request_id', $record->id)->firstOrFail();
-                //         // Generate PDF dari template
-                //         $pdfPath = $letterService->generatePDFFromTemplate($letter);
-
-                //         // Redirect ke URL file PDF untuk membuka di tab baru
-                //         return $pdfPath;
-                //     })
-                //     ->disabled(function (LetterRequest $record) {
-                //         return $record->status == Status::PROSES->value;
-                //     }),
-                Tables\Actions\Action::make("lihat")
-                    ->label("Lihat Surat")
-                    ->icon("heroicon-o-document")
-                    ->color("success")
-                    ->url(function (LetterService $letterService, LetterRequest $record) {
+                MediaAction::make("show")
+                    ->label("Lihat")
+                    ->icon("heroicon-o-eye")
+                    ->media(function (LetterService $letterService, LetterRequest $record) {
                         $letter = Letter::where('letter_request_id', $record->id)->firstOrFail();
                         // Generate PDF dari template
                         $pdfPath = $letterService->generatePDFFromTemplate($letter);
 
                         // Redirect ke URL file PDF untuk membuka di tab baru
                         return $pdfPath;
-                    })->openUrlInNewTab(),
+                    })
+                    ->disabled(function (LetterRequest $record) {
+                        return $record->status == Status::PROSES->value;
+                    }),
+                // Tables\Actions\Action::make("lihat")
+                //     ->label("Lihat Surat")
+                //     ->icon("heroicon-o-document")
+                //     ->color("success")
+                //     ->url(function (LetterService $letterService, LetterRequest $record) {
+                //         $letter = Letter::where('letter_request_id', $record->id)->firstOrFail();
+                //         // Generate PDF dari template
+                //         $pdfPath = $letterService->generatePDFFromTemplate($letter);
+
+                //         // Redirect ke URL file PDF untuk membuka di tab baru
+                //         return $pdfPath;
+                //     })->openUrlInNewTab(),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()->visible(function (LetterRequest $record) {
                         return $record->status == Status::PROSES->value;
