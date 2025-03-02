@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('letter_requests', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('unique_field')->unique()->default(Str::random(10));
             $table->string("birthplace_id")->nullable();
             $table->string("id_number")->nullable();
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string("created_by");
             $table->string("name")->nullable();
             $table->string("status");
-            $table->integer("letter_type_id");
+            $table->uuid("letter_type_id");
             $table->softDeletes();
             $table->timestamps();
         });

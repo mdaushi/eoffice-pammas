@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('letters', function (Blueprint $table) {
-            $table->id();
-            $table->integer("letter_request_id");
+            $table->uuid('id')->primary();
+            $table->uuid("letter_request_id");
             $table->integer("number");
             $table->timestamp("sign_at")->nullable();
             $table->softDeletes();
