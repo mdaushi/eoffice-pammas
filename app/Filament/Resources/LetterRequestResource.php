@@ -2,22 +2,23 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\Status;
-use App\Filament\Resources\LetterRequestResource\Pages;
-use App\Filament\Resources\LetterRequestResource\RelationManagers;
-use App\Models\Letter;
-use App\Models\LetterRequest;
-use App\Models\User;
-use App\Services\LetterService;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Notifications\Notification;
-use Filament\Resources\Resource;
+use App\Models\User;
 use Filament\Tables;
+use App\Enums\Status;
+use App\Models\Letter;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Hugomyb\FilamentMediaAction\Tables\Actions\MediaAction;
+use App\Models\LetterRequest;
+use App\Services\LetterService;
+use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Auth;
+use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\LetterRequestResource\Pages;
+use Hugomyb\FilamentMediaAction\Tables\Actions\MediaAction;
+use App\Filament\Resources\LetterRequestResource\RelationManagers;
 
 class LetterRequestResource extends Resource
 {
@@ -25,8 +26,24 @@ class LetterRequestResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $pluralLabel = "Pengajuan Surat";
-    protected static ?string $label = "Pengajuan Surat";
+    // protected static ?string $pluralLabel = $this->getTitleByUser();
+    // protected static ?string $label = $this->getTitleByUser();
+
+    public static function getTitleByUser(string $role): string {
+       return $role === 'user' ? "Pengajuan Surat" : "Surat Masuk";
+    }
+
+    public static function getPluralLabel(): ?string
+    {
+        $roleName = Auth::user()->roles()->first()->name;
+        return self::getTitleByUser($roleName);
+    }
+
+    public static function getLabel(): ?string
+    {
+        $roleName = Auth::user()->roles()->first()->name;
+        return self::getTitleByUser($roleName);
+    }
 
     public static function form(Form $form): Form
     {
