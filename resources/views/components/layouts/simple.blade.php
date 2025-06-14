@@ -9,8 +9,8 @@
         'subheading' => null,
     ])
 
-    <div class="fi-simple-layout flex min-h-screen flex-col items-center">
-        {{-- @if (($hasTopbar ?? true) && filament()->auth()->check())
+    <div class="fi-simple-layout flex min-h-screen flex-col items-center" style="background-image: url('https://image.idntimes.com/post/20191210/mg-5361-min-0a41ddd29776901bd57ed1e63f8c6991.jpeg');background-size: cover;">
+        @if (($hasTopbar ?? true) && filament()->auth()->check())
             <div
                 class="absolute end-0 top-0 flex h-16 items-center gap-x-4 pe-4 md:pe-6 lg:pe-8"
             >
@@ -20,7 +20,7 @@
 
                 <x-filament-panels::user-menu />
             </div>
-        @endif --}}
+        @endif
 
         <div class="fi-simple-main-ctn flex w-full flex-grow items-center justify-center">
             <main
