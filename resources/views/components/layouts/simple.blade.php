@@ -9,7 +9,7 @@
         'subheading' => null,
     ])
 
-    <div class="fi-simple-layout flex min-h-screen flex-col items-center" style="background-image: url('{{ asset('images/bg-login.jpg') }}');background-size: cover;">
+    <div class="fi-simple-layout flex min-h-screen flex-col items-center" style="background-image: url('{{ asset('images/bg-login.jpg') }}'); background-size: cover; background-position: bottom;">
         @if (($hasTopbar ?? true) && filament()->auth()->check())
             <div
                 class="absolute end-0 top-0 flex h-16 items-center gap-x-4 pe-4 md:pe-6 lg:pe-8"
