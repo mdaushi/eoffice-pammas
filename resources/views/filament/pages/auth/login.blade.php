@@ -20,10 +20,4 @@
 
     {{ \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::AUTH_LOGIN_FORM_AFTER, scopes: $this->getRenderHookScopes()) }}
 
-    <style>
-        .filament-login-page{
-            background-image: url('https://koranmakassar.com/wp-content/uploads/2022/08/471f3ed6-e195-4ac1-b30f-ae78c07f752f-e1660297857437.jpg')
-            background-size: "cover"
-        }
-    </style>
 </x-page.sample>
