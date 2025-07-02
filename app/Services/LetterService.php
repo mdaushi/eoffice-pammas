@@ -213,6 +213,9 @@ class LetterService
         $tempHtmlPath = storage_path('app/temp_' . $record->id . '.html');
         file_put_contents($tempHtmlPath, $htmlContent);
 
+        $imagePath = public_path('images/logo_pangkep.png');
+
+
         // Buat PDF dari HTML yang sudah dimodifikasi
         $pdf = new \TCPDF();
         $pdf->SetCreator('EOffice Pammas');
@@ -227,6 +230,17 @@ class LetterService
 
         // Tambahkan halaman dan konten HTML
         $pdf->AddPage();
+
+        if (file_exists($imagePath)) {
+            $pdf->Image(
+                $imagePath,   // path file gambar
+                10,     // X: agak masuk sedikit dari sisi kiri (margin)
+                15,     // Y: dekat dengan atas (margin atas)
+                20,     // width: lebar gambar, sesuaikan dengan ukuran kop
+                0,      // height: biarkan auto
+                'PNG'   // format gambar
+            );
+        }
         $pdf->writeHTML($htmlContent, true, false, true, false, '');
 
         // Buat direktori jika belum ada
