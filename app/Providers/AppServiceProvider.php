@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Table;
+use Filament\Tables\Actions\Action;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Filament\Tables\Enums\FiltersLayout;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,5 +33,9 @@ class AppServiceProvider extends ServiceProvider
                 ->extremePaginationLinks()
                 ->defaultSort('created_at', 'desc');
         });
+
+        if (App::environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }
