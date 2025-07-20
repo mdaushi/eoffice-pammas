@@ -6,6 +6,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\ServiceProvider;
 use Filament\Tables\Enums\FiltersLayout;
 
@@ -37,5 +38,13 @@ class AppServiceProvider extends ServiceProvider
         if (App::environment('production')) {
             URL::forceScheme('https');
         }
+
+        Request::macro('hasValidSignature', function ($absolute = true) {
+            $uploading = strpos(URL::current(), '/livewire/upload-file');
+            $previewing = strpos(URL::current(), '/livewire/preview-file');
+            if ($uploading || $previewing) {
+                return true;
+            }
+        });
     }
 }
